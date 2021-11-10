@@ -9,7 +9,7 @@ import (
 
 const MaxLength = 99
 
-var ErrStringTooLong = errors.New("string too long")
+var ErrDataTooLong = errors.New("sgqr: data too long")
 
 type Valuer interface {
 	Value() (string, error)
@@ -28,7 +28,7 @@ func NewString(id, value string) Pair {
 
 func (s String) Value() (string, error) {
 	if len(s) > MaxLength {
-		return "", ErrStringTooLong
+		return "", ErrDataTooLong
 	}
 
 	return string(s), nil
@@ -50,7 +50,7 @@ func (arr Array) Value() (string, error) {
 
 		fmt.Fprintf(buf, "%s%02d%s", i.ID, len(s), s)
 		if buf.Len() > MaxLength {
-			return "", ErrStringTooLong
+			return "", ErrDataTooLong
 		}
 	}
 
@@ -66,22 +66,22 @@ func NewFloat64(id string, value float64) Pair {
 func (a Float64) Value() (string, error) {
 	s := strconv.FormatFloat(float64(a), 'f', 2, 64)
 	if len(s) > MaxLength {
-		return "", ErrStringTooLong
+		return "", ErrDataTooLong
 	}
 
 	return s, nil
 }
 
-type UInt64 uint64
+type Uint64 uint64
 
-func NewUInt64(id string, value uint64) Pair {
+func NewUint64(id string, value uint64) Pair {
 	return Pair{ID: id, Data: Float64(value)}
 }
 
-func (a UInt64) Value() (string, error) {
+func (a Uint64) Value() (string, error) {
 	s := strconv.FormatUint(uint64(a), 10)
 	if len(s) > MaxLength {
-		return "", ErrStringTooLong
+		return "", ErrDataTooLong
 	}
 
 	return s, nil
