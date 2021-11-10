@@ -1,1 +1,1 @@
-# sgqr-go
+# SGQR payload builder written in Go
