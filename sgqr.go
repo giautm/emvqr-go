@@ -2,10 +2,32 @@ package sgqr
 
 import (
 	"fmt"
+
+	"giautm.dev/sgqr/internal"
 )
 
+var ErrDataTooLong = internal.ErrDataTooLong
+
+type Pair = internal.Pair
+
+func Array(id string, values ...Pair) Pair {
+	return Pair{ID: id, Data: internal.Array(values)}
+}
+
+func String(id, value string) Pair {
+	return Pair{ID: id, Data: internal.String(value)}
+}
+
+func Float64(id string, value float64) Pair {
+	return Pair{ID: id, Data: internal.Float64(value)}
+}
+
+func Uint64(id string, value uint64) Pair {
+	return Pair{ID: id, Data: internal.Float64(value)}
+}
+
 func PayloadFormatIndicator() Pair {
-	return NewString("00", "01")
+	return String("00", "01")
 }
 
 func PointOfInitiationMethod(isDynamic bool) Pair {
@@ -14,47 +36,47 @@ func PointOfInitiationMethod(isDynamic bool) Pair {
 		val = "12"
 	}
 
-	return NewString("01", val)
+	return String("01", val)
 }
 
 func MerchantAccountInfo(info ...Pair) Pair {
-	return NewArray("26", info...)
+	return Array("26", info...)
 }
 
 func MerchantCategory(code string) Pair {
-	return NewString("52", code)
+	return String("52", code)
 }
 
 func TransactionCurrency(code string) Pair {
-	return NewString("53", code)
+	return String("53", code)
 }
 
 func TransactionAmount(amount float64) Pair {
-	return NewFloat64("54", amount)
+	return Float64("54", amount)
 }
 
 func CountryCode(code string) Pair {
-	return NewString("58", code)
+	return String("58", code)
 }
 
 func MerchantName(name string) Pair {
-	return NewString("59", name)
+	return String("59", name)
 }
 
 func MerchantCity(city string) Pair {
-	return NewString("60", city)
+	return String("60", city)
 }
 
 func PostalCode(code string) Pair {
-	return NewString("61", code)
+	return String("61", code)
 }
 
 func AdditionalData(data ...Pair) Pair {
-	return NewArray("62", data...)
+	return Array("62", data...)
 }
 
-func BuildPayload(root Array) (string, error) {
-	s, err := root.Value()
+func BuildPayload(root ...Pair) (string, error) {
+	s, err := internal.Array(root).Value()
 	if err != nil {
 		return "", err
 	}

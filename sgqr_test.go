@@ -8,7 +8,7 @@ import (
 
 func Test_BuildPayload(t *testing.T) {
 	type args struct {
-		pairs sgqr.Array
+		pairs []sgqr.Pair
 	}
 	tests := []struct {
 		name string
@@ -18,16 +18,16 @@ func Test_BuildPayload(t *testing.T) {
 		{
 			name: "VietQR",
 			args: args{
-				pairs: sgqr.Array{
+				pairs: []sgqr.Pair{
 					sgqr.PayloadFormatIndicator(),
 					sgqr.PointOfInitiationMethod(false),
-					sgqr.NewArray("38",
-						sgqr.NewString("00", "A000000727"),
-						sgqr.NewArray("01",
-							sgqr.NewString("00", "970415"),
-							sgqr.NewString("01", "113366668888"),
+					sgqr.Array("38",
+						sgqr.String("00", "A000000727"),
+						sgqr.Array("01",
+							sgqr.String("00", "970415"),
+							sgqr.String("01", "113366668888"),
 						),
-						sgqr.NewString("02", "QRIBFTTA"),
+						sgqr.String("02", "QRIBFTTA"),
 					),
 					sgqr.TransactionCurrency("704"),
 					sgqr.CountryCode("VN"),
@@ -38,7 +38,7 @@ func Test_BuildPayload(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := sgqr.BuildPayload(tt.args.pairs); got != tt.want {
+			if got, _ := sgqr.BuildPayload(tt.args.pairs...); got != tt.want {
 				t.Errorf("BuildPayload() = %v, want %v", got, tt.want)
 			}
 		})

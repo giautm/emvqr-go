@@ -1,4 +1,4 @@
-package sgqr
+package internal
 
 import (
 	"errors"
@@ -22,10 +22,6 @@ type Pair struct {
 
 type String string
 
-func NewString(id, value string) Pair {
-	return Pair{ID: id, Data: String(value)}
-}
-
 func (s String) Value() (string, error) {
 	if len(s) > MaxLength {
 		return "", ErrDataTooLong
@@ -35,10 +31,6 @@ func (s String) Value() (string, error) {
 }
 
 type Array []Pair
-
-func NewArray(id string, values ...Pair) Pair {
-	return Pair{ID: id, Data: Array(values)}
-}
 
 func (arr Array) Value() (string, error) {
 	buf := &strings.Builder{}
@@ -59,10 +51,6 @@ func (arr Array) Value() (string, error) {
 
 type Float64 float64
 
-func NewFloat64(id string, value float64) Pair {
-	return Pair{ID: id, Data: Float64(value)}
-}
-
 func (a Float64) Value() (string, error) {
 	s := strconv.FormatFloat(float64(a), 'f', 2, 64)
 	if len(s) > MaxLength {
@@ -73,10 +61,6 @@ func (a Float64) Value() (string, error) {
 }
 
 type Uint64 uint64
-
-func NewUint64(id string, value uint64) Pair {
-	return Pair{ID: id, Data: Float64(value)}
-}
 
 func (a Uint64) Value() (string, error) {
 	s := strconv.FormatUint(uint64(a), 10)
