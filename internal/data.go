@@ -30,12 +30,20 @@ func (s String) Value() (string, error) {
 	return string(s), nil
 }
 
-type Array struct {
+type list struct {
 	Pairs []Pair
-	Root  bool
+	root  bool
 }
 
-func (arr Array) Value() (string, error) {
+func List(pairs []Pair) Valuer {
+	return list{Pairs: pairs, root: false}
+}
+
+func ListRoot(pairs []Pair) Valuer {
+	return list{Pairs: pairs, root: true}
+}
+
+func (arr list) Value() (string, error) {
 	buf := &strings.Builder{}
 	for _, i := range arr.Pairs {
 		s, err := i.Data.Value()
@@ -44,7 +52,7 @@ func (arr Array) Value() (string, error) {
 		}
 
 		fmt.Fprintf(buf, "%s%02d%s", i.ID, len(s), s)
-		if !arr.Root && buf.Len() > MaxLength {
+		if !arr.root && buf.Len() > MaxLength {
 			return "", ErrDataTooLong
 		}
 	}

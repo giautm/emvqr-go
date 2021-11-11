@@ -13,8 +13,8 @@ type (
 	Valuer = internal.Valuer
 )
 
-func Array(id string, values ...Pair) Pair {
-	return Pair{ID: id, Data: internal.Array{Pairs: values, Root: false}}
+func List(id string, values ...Pair) Pair {
+	return Pair{ID: id, Data: internal.List(values)}
 }
 
 func String(id, value string) Pair {
@@ -43,7 +43,7 @@ func PointOfInitiationMethod(isDynamic bool) Pair {
 }
 
 func MerchantAccountInfo(info ...Pair) Pair {
-	return Array("26", info...)
+	return List("26", info...)
 }
 
 func MerchantCategory(code string) Pair {
@@ -79,11 +79,11 @@ func PostalCode(code string) Pair {
 }
 
 func AdditionalData(data ...Pair) Pair {
-	return Array("62", data...)
+	return List("62", data...)
 }
 
 func BuildPayload(root ...Pair) (string, error) {
-	s, err := internal.Array{Pairs: root, Root: true}.Value()
+	s, err := internal.ListRoot(root).Value()
 	if err != nil {
 		return "", err
 	}
