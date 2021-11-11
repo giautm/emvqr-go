@@ -8,10 +8,13 @@ import (
 
 var ErrDataTooLong = internal.ErrDataTooLong
 
-type Pair = internal.Pair
+type (
+	Pair   = internal.Pair
+	Valuer = internal.Valuer
+)
 
 func Array(id string, values ...Pair) Pair {
-	return Pair{ID: id, Data: internal.Array(values)}
+	return Pair{ID: id, Data: internal.Array{Pairs: values, Root: false}}
 }
 
 func String(id, value string) Pair {
@@ -23,7 +26,7 @@ func Float64(id string, value float64) Pair {
 }
 
 func Uint64(id string, value uint64) Pair {
-	return Pair{ID: id, Data: internal.Float64(value)}
+	return Pair{ID: id, Data: internal.Uint64(value)}
 }
 
 func PayloadFormatIndicator() Pair {
@@ -51,8 +54,12 @@ func TransactionCurrency(code string) Pair {
 	return String("53", code)
 }
 
-func TransactionAmount(amount float64) Pair {
+func TransactionAmountFloat(amount float64) Pair {
 	return Float64("54", amount)
+}
+
+func TransactionAmountUint(amount uint64) Pair {
+	return Uint64("54", amount)
 }
 
 func CountryCode(code string) Pair {
@@ -76,7 +83,7 @@ func AdditionalData(data ...Pair) Pair {
 }
 
 func BuildPayload(root ...Pair) (string, error) {
-	s, err := internal.Array(root).Value()
+	s, err := internal.Array{Pairs: root, Root: true}.Value()
 	if err != nil {
 		return "", err
 	}
