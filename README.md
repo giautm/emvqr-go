@@ -54,9 +54,11 @@ func (i VietQRInput) BuildPayload() (string, error) {
 			// QR Inter-Bank Funds Transfer
 			sgqr.String("02", "QRIBFTTA"),
 		),
-		sgqr.TransactionAmountUint(i.Amount),
 		sgqr.TransactionCurrency("704"),
 		sgqr.CountryCode("VN"),
+	}
+	if i.Amount > 0 {
+		pairs = append(pairs, sgqr.TransactionAmountUint(i.Amount))
 	}
 	if len(i.Message) > 0 {
 		pairs = append(pairs, sgqr.AdditionalData(sgqr.String("08", i.Message)))
