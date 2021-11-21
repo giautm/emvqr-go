@@ -2,7 +2,6 @@ package internal
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -10,6 +9,7 @@ import (
 const MaxLength = 99
 
 var ErrDataTooLong = errors.New("sgqr: data too long")
+var digits = []rune("0123456789")
 
 type Valuer interface {
 	Value() (string, error)
@@ -45,13 +45,18 @@ func ListRoot(pairs []Pair) Valuer {
 
 func (arr list) Value() (string, error) {
 	buf := &strings.Builder{}
+	buf.Grow(96)
 	for _, i := range arr.Pairs {
 		s, err := i.Data.Value()
 		if err != nil {
 			return "", err
 		}
 
-		fmt.Fprintf(buf, "%s%02d%s", i.ID, len(s), s)
+		l := len(s)
+		buf.WriteString(i.ID)
+		buf.WriteRune(digits[l/10])
+		buf.WriteRune(digits[l%10])
+		buf.WriteString(s)
 		if !arr.root && buf.Len() > MaxLength {
 			return "", ErrDataTooLong
 		}
