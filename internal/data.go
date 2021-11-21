@@ -8,8 +8,10 @@ import (
 
 const MaxLength = 99
 
-var ErrDataTooLong = errors.New("sgqr: data too long")
-var digits = []rune("0123456789")
+var (
+	ErrDataTooLong = errors.New("sgqr: data too long")
+	digits         = []rune("0123456789")
+)
 
 type Valuer interface {
 	Value() (string, error)
@@ -28,6 +30,28 @@ func (s String) Value() (string, error) {
 	}
 
 	return string(s), nil
+}
+
+type Float64 float64
+
+func (a Float64) Value() (string, error) {
+	s := strconv.FormatFloat(float64(a), 'f', 2, 64)
+	if len(s) > MaxLength {
+		return "", ErrDataTooLong
+	}
+
+	return s, nil
+}
+
+type Uint64 uint64
+
+func (a Uint64) Value() (string, error) {
+	s := strconv.FormatUint(uint64(a), 10)
+	if len(s) > MaxLength {
+		return "", ErrDataTooLong
+	}
+
+	return s, nil
 }
 
 type list struct {
@@ -63,26 +87,4 @@ func (arr list) Value() (string, error) {
 	}
 
 	return buf.String(), nil
-}
-
-type Float64 float64
-
-func (a Float64) Value() (string, error) {
-	s := strconv.FormatFloat(float64(a), 'f', 2, 64)
-	if len(s) > MaxLength {
-		return "", ErrDataTooLong
-	}
-
-	return s, nil
-}
-
-type Uint64 uint64
-
-func (a Uint64) Value() (string, error) {
-	s := strconv.FormatUint(uint64(a), 10)
-	if len(s) > MaxLength {
-		return "", ErrDataTooLong
-	}
-
-	return s, nil
 }
