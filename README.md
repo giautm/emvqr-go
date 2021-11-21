@@ -34,3 +34,15 @@ func main() {
 	qrcode2.QRCode(payload, qrcode2.BrightWhite, qrcode2.NormalBlack, qrcode.Medium)
 }
 ```
+
+Performance
+```
+goos: darwin
+goarch: amd64
+pkg: giautm.dev/sgqr
+cpu: Intel(R) Core(TM) i5-8279U CPU @ 2.40GHz
+Benchmark_BuildPayload
+Benchmark_BuildPayload-8   	 1558408	       771.8 ns/op	     594 B/op	       8 allocs/op
+PASS
+ok  	giautm.dev/sgqr	2.447s
+```
