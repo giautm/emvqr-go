@@ -25,7 +25,7 @@
 | Data Object | Input Characters | Remarks|
 | --- | --- | --- |
 | Merchant Account Information | "3856" | Floating ID "38". This ID is allocated for this QR only
-| - Global Unique Identifier<br/>- Bank Info<br/>	* Acquirer ID<br/>	* Account No<br/> - QR Type | "0010A000000727"<br/>"012600069704150112113366668888"<br/><br/><br/>"0208QRIBFTTA" | Reversed domain<br/><br/>970415 - [NAPAS Bin](https://www.sbv.gov.vn/webcenter/ShowProperty?nodeId=/UCMServer/SBV399939//idcPrimaryFile&revision=latestreleased)<br/>113366668888<br/>QRIBFTTA
+| - Global Unique Identifier<br/>- Bank Info<br/>	* Acquirer ID<br/>	* Account No/Card No<br/> - Destination Type | "0010A000000727"<br/>"012600069704150112113366668888"<br/><br/><br/>"0208QRIBFTTA" | Reversed domain<br/><br/>970415 - [NAPAS Bin](https://www.sbv.gov.vn/webcenter/ShowProperty?nodeId=/UCMServer/SBV399939//idcPrimaryFile&revision=latestreleased)<br/>113366668888<br/>QRIBFTTA / QRIBFTTC
 
 
 **Sample code**

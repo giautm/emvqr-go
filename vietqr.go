@@ -17,7 +17,7 @@ func (i VietQRInput) BuildPayload() (string, error) {
 				String("00", i.AcqID),
 				String("01", i.AccountNo),
 			),
-			// QR Inter-Bank Funds Transfer
+			// QR Inter-Bank Funds Transfer To Account
 			String("02", "QRIBFTTA"),
 		),
 		TransactionCurrency("704"),
