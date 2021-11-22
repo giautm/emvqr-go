@@ -18,19 +18,14 @@
 
 | Name | ID | Format | Length | Presence |
 | --- | --- | --- | --- | --- |
-| Additional Info | "08" | ans | var. up to "25" | O
+| Purpose of Transaction | "08" | ans | var. up to "25" | O
 
 **VietQR - Merchant Account Information (ID "38")**
 
 | Data Object | Input Characters | Remarks|
 | --- | --- | --- |
-| Merchant Account Information | "3856" | Floating ID "38". This ID is allocated for this QR only
-| - Global Unique Identifier<br/>- Bank Info<br/>	* Acquirer ID<br/>	* Account No/Card No<br/> - Destination Type | "0010A000000727"<br/>"012600069704150112113366668888"<br/><br/><br/>"0208QRIBFTTA" | Reversed domain<br/><br/>970415 - [NAPAS Bin](https://www.sbv.gov.vn/webcenter/ShowProperty?nodeId=/UCMServer/SBV399939//idcPrimaryFile&revision=latestreleased)<br/>113366668888<br/>QRIBFTTA / QRIBFTTC
-
-## References
-- [Ref A: EMV® QR Code Specification for Payment Systems (EMV® QRCPS) Merchant-Presented Mode][Ref A]
-
-[Ref A]: https://www.emvco.com/emv-technologies/qrcodes/
+| Merchant Account Information | "3856" | Floating ID "38". This ID is allocated for this QR only<br/>Refer to [Ref B].
+| - Global Unique Identifier<br/>- Beneficiary Organization<br/>	* ACQ ID / BNB ID<br/>	*  Merchant ID / Consumer ID<br/> - Service Code | "0010A000000727"<br/>"012600069704150112113366668888"<br/><br/><br/>"0208QRIBFTTA" | Reversed domain<br/><br/>970415 - [NAPAS BIN](https://www.sbv.gov.vn/webcenter/ShowProperty?nodeId=/UCMServer/SBV399939//idcPrimaryFile&revision=latestreleased)<br/>113366668888<br/>QRIBFTTA / QRIBFTTC
 
 **Sample code**
 
@@ -74,3 +69,10 @@ Benchmark_BuildPayload-8   	 1558408	       771.8 ns/op	     594 B/op	       8 a
 PASS
 ok  	giautm.dev/sgqr	2.447s
 ```
+
+## References
+- [Ref A: EMV® QR Code Specification for Payment Systems (EMV® QRCPS) Merchant-Presented Mode][Ref A]
+- [Ref B: TÀI LIỆU QUY ĐỊNH VỀ ĐỊNH DẠNG MÃ VIETQR TRONG DỊCH VỤ CHUYỂN NHANH NAPAS247][Ref B]
+
+[Ref A]: https://www.emvco.com/emv-technologies/qrcodes/
+[Ref B]: https://vietqr.net/portal-service/download/documents/QR_Format_T&C_v1.0_VN_092021.pdf
