@@ -6,13 +6,13 @@
 
 | Name | ID | Format | Length | Presence | Comment |
 | --- | --- | --- | --- | --- | --- |
-| Payload Format Indicator | "00" | N | "02" | M
-| Point of Initiation Method | "01" | N | "02" | O | "11" for static, "22" for dynamic
-| Merchant Account Information | "02"-"51" | ans | Each var. up to "99" | M | At least one Merchant Account Information data object shall be present.
-| Transaction Currency | "53" | N | "03" | M | Fixed to "704"
-| Country Code | "58" | ans | "02" | M | Fixed to "VN"
-| Additional Data Field Template | "62" | S | var. up to "99" | O 
-| CRC | "63" | ans | "04" | M
+| Payload Format Indicator | "00" | N | "02" | M | Refer to [Ref A].
+| Point of Initiation Method | "01" | N | "02" | O | "11" for static, "22" for dynamic<br/>Refer to [Ref A].
+| Merchant Account Information | "02"-"51" | ans | Each var. up to "99" | M | At least one Merchant Account Information data object shall be present.<br/>Refer to [Ref A].
+| Transaction Currency | "53" | N | "03" | M | Fixed to "704"<br/>Refer to [Ref A].
+| Country Code | "58" | ans | "02" | M | Fixed to "VN"<br/>Refer to [Ref A].
+| Additional Data Field Template | "62" | S | var. up to "99" | O | Refer to [Ref A].
+| CRC | "63" | ans | "04" | M | Refer to [Ref A].
 
 ### Data Objects for Additional Data Field Template (ID "62")
 
@@ -27,6 +27,10 @@
 | Merchant Account Information | "3856" | Floating ID "38". This ID is allocated for this QR only
 | - Global Unique Identifier<br/>- Bank Info<br/>	* Acquirer ID<br/>	* Account No/Card No<br/> - Destination Type | "0010A000000727"<br/>"012600069704150112113366668888"<br/><br/><br/>"0208QRIBFTTA" | Reversed domain<br/><br/>970415 - [NAPAS Bin](https://www.sbv.gov.vn/webcenter/ShowProperty?nodeId=/UCMServer/SBV399939//idcPrimaryFile&revision=latestreleased)<br/>113366668888<br/>QRIBFTTA / QRIBFTTC
 
+## References
+- [Ref A: EMV® QR Code Specification for Payment Systems (EMV® QRCPS) Merchant-Presented Mode][Ref A]
+
+[Ref A]: https://www.emvco.com/emv-technologies/qrcodes/
 
 **Sample code**
 
