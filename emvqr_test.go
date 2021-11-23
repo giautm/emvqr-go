@@ -73,3 +73,75 @@ func Benchmark_BuildPayload(b *testing.B) {
 		emvqr.BuildPayload(pairs...)
 	}
 }
+
+func TestGetIn(t *testing.T) {
+	type args struct {
+		data string
+		ids  []string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "not found",
+			args: args{
+				data: "0103333",
+				ids:  []string{"02"},
+			},
+			want: "",
+		},
+		{
+			name: "invalid data",
+			args: args{
+				data: "010233",
+				ids:  []string{"01", "02"},
+			},
+			want: "",
+		},
+		{
+			name: "simple",
+			args: args{
+				data: "0103333",
+				ids:  []string{"01"},
+			},
+			want: "333",
+		},
+		{
+			name: "next",
+			args: args{
+				data: "000201010211",
+				ids:  []string{"01"},
+			},
+			want: "11",
+		},
+		{
+			name: "sub",
+			args: args{
+				data: "00020101021126280010A000000775011001064159995204829953037045802VN5913123VIETNAMESE6005HANOI610610000062290313G7AUTO03 SAPO0708G7AUTO04630458BA",
+				ids:  []string{"62", "07"},
+			},
+			want: "G7AUTO04",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := emvqr.GetIn(tt.args.data, tt.args.ids...); got != tt.want {
+				t.Errorf("GetIn() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Benchmark_GetIn(b *testing.B) {
+	data := "00020101021126280010A000000775011001064159995204829953037045802VN5913123VIETNAMESE6005HANOI610610000062290313G7AUTO03 SAPO0708G7AUTO04630458BA"
+	want := "G7AUTO04"
+
+	for n := 0; n < b.N; n++ {
+		if emvqr.GetIn(data, "62", "07") != want {
+			b.Errorf("GetIn() = %v, want %v", emvqr.GetIn(data, "62", "07"), want)
+		}
+	}
+}

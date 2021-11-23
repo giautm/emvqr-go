@@ -91,3 +91,25 @@ func BuildPayload(root ...Pair) (string, error) {
 	s += "6304"
 	return fmt.Sprintf("%s%04X", s, crcCCITTFalse([]byte(s))), nil
 }
+
+func GetIn(input string, ids ...string) string {
+	for _, id := range ids {
+		found := false
+
+		for len(input) > 4 {
+			found = input[:2] == id[:2]
+			last := 4 + int((input[2]-'0')*10+input[3]-'0')
+			if found {
+				input = input[4:last]
+				break
+			}
+
+			input = input[last:]
+		}
+		if !found && len(input) <= 4 {
+			return ""
+		}
+	}
+
+	return input
+}
