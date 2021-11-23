@@ -101,6 +101,14 @@ func TestGetIn(t *testing.T) {
 			want: "",
 		},
 		{
+			name: "invalid data wrong length",
+			args: args{
+				data: "0109333",
+				ids:  []string{"01"},
+			},
+			want: "",
+		},
+		{
 			name: "simple",
 			args: args{
 				data: "0103333",
@@ -143,5 +151,52 @@ func Benchmark_GetIn(b *testing.B) {
 		if emvqr.GetIn(data, "62", "07") != want {
 			b.Errorf("GetIn() = %v, want %v", emvqr.GetIn(data, "62", "07"), want)
 		}
+	}
+}
+
+func TestCheckCRC(t *testing.T) {
+	type args struct {
+		input string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "happy case",
+			args: args{
+				input: "00020101021262110807tien le38560010A0000007270126000697041501121133666688880208QRIBFTTA5303704540460005802VN63046893",
+			},
+			want: true,
+		},
+		{
+			name: "happy case wrong",
+			args: args{
+				input: "00020101021262110807tienxle38560010A0000007270126000697041501121133666688880208QRIBFTTA5303704540460005802VN63046893",
+			},
+			want: false,
+		},
+		{
+			name: "short string",
+			args: args{
+				input: "000",
+			},
+			want: false,
+		},
+		{
+			name: "short-string",
+			args: args{
+				input: "00000",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := emvqr.CheckCRC(tt.args.input); got != tt.want {
+				t.Errorf("CheckCRC() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

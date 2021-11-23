@@ -92,13 +92,26 @@ func BuildPayload(root ...Pair) (string, error) {
 	return fmt.Sprintf("%s%04X", s, crcCCITTFalse([]byte(s))), nil
 }
 
+func CheckCRC(input string) bool {
+	l := len(input)
+	if l <= 4 {
+		return false
+	}
+
+	crc := fmt.Sprintf("%04X", crcCCITTFalse([]byte(input[:l-4])))
+	return crc == input[l-4:]
+}
+
 func GetIn(input string, ids ...string) string {
 	for _, id := range ids {
 		found := false
 
-		for len(input) > 4 {
+		for remain := len(input); remain > 4; remain = len(input) {
 			found = input[:2] == id[:2]
 			last := 4 + int((input[2]-'0')*10+input[3]-'0')
+			if last > remain {
+				return "" // EOF
+			}
 			if found {
 				input = input[4:last]
 				break
@@ -106,8 +119,9 @@ func GetIn(input string, ids ...string) string {
 
 			input = input[last:]
 		}
+
 		if !found && len(input) <= 4 {
-			return ""
+			return "" // EOF
 		}
 	}
 
