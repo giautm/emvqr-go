@@ -1,9 +1,9 @@
-package sgqr
+package emvqr
 
 import (
 	"fmt"
 
-	"giautm.dev/sgqr/internal"
+	"giautm.dev/emvqr/internal"
 )
 
 var ErrDataTooLong = internal.ErrDataTooLong

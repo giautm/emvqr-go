@@ -1,3 +1,3 @@
-module giautm.dev/sgqr
+module giautm.dev/emvqr
 
 go 1.17

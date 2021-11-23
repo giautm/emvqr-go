@@ -1,4 +1,4 @@
-# SGQR payload builder written in Go
+# EMV-QR payload builder written in Go
 
 ## VietQR specification
 

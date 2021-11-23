@@ -1,4 +1,4 @@
-package sgqr
+package emvqr
 
 type VietQRInput struct {
 	AcqID          string `json:"acqID"`
