@@ -77,7 +77,7 @@ func (arr list) Value() (string, error) {
 		}
 
 		l := len(s)
-		buf.WriteString(i.ID)
+		buf.WriteString(i.ID[:2])
 		buf.WriteRune(digits[l/10])
 		buf.WriteRune(digits[l%10])
 		buf.WriteString(s)
