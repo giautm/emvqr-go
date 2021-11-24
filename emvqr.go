@@ -13,6 +13,13 @@ type (
 	Valuer = internal.Valuer
 )
 
+func Currency(id string, isoCode string, amount interface{}) Pair {
+	return Pair{ID: id, Data: &internal.Currency{
+		Amount: amount,
+		Code:   isoCode,
+	}}
+}
+
 func List(id string, values ...Pair) Pair {
 	return Pair{ID: id, Data: internal.List(values)}
 }
@@ -54,8 +61,8 @@ func TransactionCurrency(code string) Pair {
 	return String("53", code)
 }
 
-func TransactionAmountFloat(amount float64) Pair {
-	return Float64("54", amount)
+func TransactionAmount(isoCode string, amount interface{}) Pair {
+	return Currency("54", isoCode, amount)
 }
 
 func TransactionAmountUint(amount uint64) Pair {

@@ -24,6 +24,9 @@ func (i VietQRInput) BuildPayload() (string, error) {
 		CountryCode("VN"),
 	}
 	if i.Amount > 0 {
+		// VND has the precision of 0 digits, so we need to
+		// use TransactionAmountUint instead of
+		// TransactionAmount to optimize performance.
 		pairs = append(pairs, TransactionAmountUint(i.Amount))
 	}
 	if len(i.AdditionalInfo) > 0 {

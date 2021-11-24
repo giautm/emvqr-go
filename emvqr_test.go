@@ -54,6 +54,8 @@ func Test_BuildPayload(t *testing.T) {
 }
 
 func Benchmark_BuildPayload(b *testing.B) {
+	b.ReportAllocs()
+
 	pairs := []emvqr.Pair{
 		emvqr.PayloadFormatIndicator(),
 		emvqr.PointOfInitiationMethod(false),
@@ -65,12 +67,21 @@ func Benchmark_BuildPayload(b *testing.B) {
 			),
 			emvqr.String("02", "QRIBFTTA"),
 		),
+		emvqr.TransactionAmount("VND", 70000.90),
 		emvqr.TransactionCurrency("704"),
 		emvqr.CountryCode("VN"),
 	}
+	want := "00020101021138560010A0000007270126000697041501121133666688880208QRIBFTTA54057000153037045802VN6304ED54"
 
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		emvqr.BuildPayload(pairs...)
+		got, err := emvqr.BuildPayload(pairs...)
+		if err != nil {
+			b.Errorf("BuildPayload() error = %v", err)
+		}
+		if got != want {
+			b.Errorf("BuildPayload() = %v, want %v", got, want)
+		}
 	}
 }
 
