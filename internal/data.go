@@ -9,7 +9,7 @@ import (
 const MaxLength = 99
 
 var (
-	ErrDataTooLong = errors.New("sgqr: data too long")
+	ErrDataTooLong = errors.New("emvqr: data too long")
 	digits         = []rune("0123456789")
 )
 
